@@ -66,6 +66,8 @@ Route::get('/admin/horarios/{id}/edit', [HorarioController::class, 'edit'])->nam
 Route::put('/admin/horarios/{id}', [HorarioController::class, 'update'])->name('admin.horarios.update')->middleware('auth');    
 Route::delete('/admin/horarios/{id}/delete', [HorarioController::class, 'destroy'])->name('admin.horarios.destroy')->middleware('auth'); 
 
+//ajax
+Route::get('/admin/horarios/consultorios/{id}', [HorarioController::class, 'cargar_consultorio'])->name('admin.horarios.cargar')->middleware('auth');
 
 
 

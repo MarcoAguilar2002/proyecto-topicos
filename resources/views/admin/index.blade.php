@@ -74,6 +74,20 @@
                 <a href="{{ route('admin.doctores.index') }}" class="small-box-footer">Más información <i
                         class="fas bi bi-person-fill-add"></i></a>
             </div>
+        </div>  
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ $total_horarios }}</h3>
+                    <p>Horarios</p>
+                </div>
+                <div class="icon">
+                    <i class="ion fas bi bi-calendar-event"></i>
+                </div>
+                <a href="{{ route('admin.horarios.index') }}" class="small-box-footer">Más información <i
+                        class="fas bi bi-calendar-event"></i></a>
+            </div>
         </div>
     </div>
 

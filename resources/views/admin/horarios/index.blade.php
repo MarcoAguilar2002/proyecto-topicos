@@ -108,58 +108,51 @@
     <div class="container mt-5">
         <div class="col-md-12">
             <div class="card card-outline card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Calendario de atención</h3>
-                </div>
-
+                <div class="card-header row">
+                    <div class="col-md-6 d-flex align-items-center">
+                        <h3 class="card-title mb-0">Calendario de atención</h3>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center justify-content-end">
+                        <div class="d-flex align-items-center">
+                            <label for="consultorio_select" class="font-weight-bold mr-2 mb-0">Consultorios:</label>
+                            <select name="consultorio_id" id="consultorio_select" class="form-control">
+                                @foreach ($consultorios as $consultorio)
+                                    <option value="{{ $consultorio->id }}">
+                                        {{ $consultorio->nombre . '-' . $consultorio->ubicacion }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>  
+    
                 <div class="card-body text-center">
-                    <table class="table table-striped table-hover table-sm table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Hora</th>
-                                <th>Lunes</th>
-                                <th>Martes</th>
-                                <th>Miercoles</th>
-                                <th>Jueves</th>
-                                <th>Viernes</th>
-                                <th>Sábado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $horas = ['08:00:00-09:00:00','09:00:00-10:00:00','10:00:00-11:00:00','11:00:00-12:00:00','12:00:00-13:00:00','13:00:00-14:00:00','14:00:00-15:00:00','15:00:00-16:00:00','16:00:00-17:00:00'];
-                                $diasSem = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];  
-                            @endphp
-                            @foreach($horas as $hora)
-                                @php
-                                    list($hora_inicio,$hora_fin) = explode('-',$hora);   
-                                @endphp
-                                <tr>
-                                    <td>{{$hora}}</td>
-                                    @foreach($diasSem as $dia)
-                                        @php
-                                            $nombreDoc = '';
-                                            foreach ($horarios as $horario) {
-                                                if($horario->dia == $dia && 
-                                                $hora_inicio >= $horario->hora_inicio &&
-                                                $hora_fin <= $horario->hora_fin){
-                                                    $nombreDoc = $horario->doctor->nombres." ".$horario->doctor->apellidos;
-                                                    break;
-                                                }
-                                            }   
-                                        @endphp
-                                        <td>{{$nombreDoc}}</td>
-                                    @endforeach
-                                </tr>
-                            @endforeach
-
-                        </tbody>
-                    </table>
+                    <script>
+                        $('#consultorio_select').on('change', function() {
+                            var consultorio_id = $('#consultorio_select').val();
+                            if (consultorio_id) {
+                                $.ajax({
+                                    url: "{{ url('/admin/horarios/consultorios') }}" + '/' + consultorio_id,
+                                    type: 'GET',
+                                    success: function(data) {
+                                        $('#consultorio_info').html(data);
+                                    },
+                                    error: function() {
+                                        alert('Error al obtener los datos del consultorio');
+                                    }
+                                });
+                            } else {
+                                $('#consultorio_info').html('');
+                            }
+                        });
+                    </script>
+    
+                    <div id="consultorio_info"></div>
                 </div>
-
             </div>
-
         </div>
     </div>
+    
+    
 
 @endsection
