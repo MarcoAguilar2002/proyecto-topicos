@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Doctor;
 use App\Models\Horario;
+use App\Models\Event;
 
 class Consultorio extends Model
 {
@@ -19,5 +20,9 @@ class Consultorio extends Model
 
     public function horarios(){
         return $this->hasMany(Horario::class);
+    }
+
+    public function events(){
+        return $this->hasMany(Event::class);
     }
 }

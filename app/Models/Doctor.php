@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Consultorio;
 use App\Models\Horario;
 use App\Models\User;
+use App\Models\Event;
 
 class Doctor extends Model
 {
@@ -24,5 +25,9 @@ class Doctor extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function events(){
+        return $this->hasMany(Event::class);
     }
 }

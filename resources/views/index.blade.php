@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8">
@@ -24,6 +24,9 @@
   <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!--JSQUERY-->
+  <script src="{{ url('plugins/jquery/jquery.min.js') }}"></script>
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
@@ -148,6 +151,60 @@
     <section id="about" class="about section">
 
       <div class="container">
+        <div class="container mt-5">
+          <div class="col-md-12">
+              <div class="card card-outline card-primary">
+                  <div class="card-header row">
+                      <div class="col-md-6 d-flex align-items-center">
+                          <h3 class="card-title mb-0">Calendario de atención</h3>
+                      </div>
+                      <div class="col-md-6 d-flex align-items-center justify-content-end">
+                          <div class="d-flex align-items-center">
+                              <label for="consultorio_select" class="font-weight-bold mr-2 mb-0">Consultorios:</label>
+                              <select name="consultorio_id" id="consultorio_select" class="form-control">
+                                <option >
+                                  Seleccione un consultorio....
+                                </option>
+                                @foreach ($consultorios as $consultorio)
+                                      <option value="{{ $consultorio->id }}">
+                                          {{ $consultorio->nombre . '-' . $consultorio->ubicacion }}
+                                      </option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+                  </div>  
+      
+                  <div class="card-body text-center">
+                      <script>
+                          $('#consultorio_select').on('change', function() {
+                              var consultorio_id = $('#consultorio_select').val();
+                              var url = "{{route('cargarIndex',':id')}}"
+                              url = url.replace(':id',consultorio_id);
+
+                              alert(url);
+                              if (consultorio_id) {
+                                $.ajax({
+                                    url: "{{ url('/consultorios') }}" + '/' + consultorio_id,
+                                    type: 'GET',
+                                    success: function(data) {
+                                        $('#consultorio_info').html(data);
+                                    },
+                                    error: function() {
+                                        alert('Error al obtener los datos del consultorio');
+                                    }
+                                });
+                            } else {
+                                $('#consultorio_info').html('');
+                            }
+                          });
+                      </script>
+      
+                      <div id="consultorio_info"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
         <div class="row gy-4 gx-5">
 

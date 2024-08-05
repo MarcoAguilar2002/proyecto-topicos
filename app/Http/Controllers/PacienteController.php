@@ -59,6 +59,9 @@ class PacienteController extends Controller
         $paciente->nro_seguro = $request->nro_seguro;
         $paciente->observaciones = $request->observaciones;
         $paciente->save();
+
+        
+
         return redirect()->route('admin.pacientes.index')
         ->with('mensaje','Se registro al paciente correctamente')
         ->with('icono','success')
